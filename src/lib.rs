@@ -3,3 +3,5 @@ pub mod db;
 pub mod app;
 pub mod routes;
 pub mod controller;
+pub mod repository;
+pub mod models;
