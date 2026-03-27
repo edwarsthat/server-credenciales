@@ -143,11 +143,6 @@ impl PersonalRepository {
             )
         })?;
 
-        println!(">>> personal docs encontrados: {}", docs.len());
-        for d in &docs {
-            println!(">>> doc: {:?}", d);
-        }
-
         docs.into_iter()
             .map(|doc| {
                 mongodb::bson::from_document(doc).map_err(|e| {

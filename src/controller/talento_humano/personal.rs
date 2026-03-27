@@ -18,6 +18,7 @@ struct Claims {
 #[derive(Serialize)]
 pub struct VerifyResponse {
     pub personal: Personal,
+    #[serde(skip_serializing)]
     pub token: String,
 }
 

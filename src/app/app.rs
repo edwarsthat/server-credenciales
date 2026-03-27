@@ -1,5 +1,6 @@
 use axum::Router;
-use tower_http::cors::{Any, CorsLayer};
+use axum::http::{HeaderValue, Method, header};
+use tower_http::cors::CorsLayer;
 
 use crate::app::error::ApiError;
 use crate::db::mongodb::MongoDb;
@@ -14,11 +15,14 @@ pub fn create_router(db_pool: MongoDb) -> Router {
     let state = AppState { db: db_pool };
 
     let cors = CorsLayer::new()
-        .allow_origin(Any)
-        .allow_methods(Any)
-        .allow_headers(Any);
+        .allow_origin("http://localhost:5173".parse::<HeaderValue>().unwrap())
+        .allow_methods([Method::GET, Method::POST, Method::PUT, Method::DELETE, Method::OPTIONS])
+        .allow_headers([header::CONTENT_TYPE, header::AUTHORIZATION, header::ACCEPT])
+        .allow_credentials(true);
 
     Router::new()
+        .merge(routes::auth::routes())
+        .merge(routes::media::routes())
         .merge(routes::healt::routes())
         .merge(routes::talento_humano::routes())
         .fallback(handler_404)
