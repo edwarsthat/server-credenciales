@@ -37,10 +37,10 @@ jobs:
 
       - name: Subir binario al servidor
         run: |
-          scp -o StrictHostKeyChecking=no target/release/credenciales-service \
+          scp -o StrictHostKeyChecking=no -P ${{ secrets.SSH_PORT }} target/release/credenciales-service \
             ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}/credenciales-service
 
       - name: Reiniciar servicio
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+          ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
             "sudo systemctl restart credenciales-service"
