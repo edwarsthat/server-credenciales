@@ -35,12 +35,11 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
 
-      - name: Subir binario al servidor
-        run: |
-          scp -o StrictHostKeyChecking=no -P ${{ secrets.SSH_PORT }} target/release/credenciales-service \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}/credenciales-service
-
-      - name: Reiniciar servicio
+      - name: Detener servicio, subir binario y reiniciar
         run: |
           ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-            "sudo systemctl restart credenciales-service"
+            "sudo systemctl stop credenciales-service"
+          scp -o StrictHostKeyChecking=no -P ${{ secrets.SSH_PORT }} target/release/credenciales-service \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}/credenciales-service
+          ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+            "sudo systemctl start credenciales-service"
