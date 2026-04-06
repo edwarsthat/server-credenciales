@@ -1,7 +1,12 @@
 use std::path::{Component, Path, PathBuf};
 use tokio::fs;
 
-const STORAGE_PATH: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/../storage");
+fn storage_path() -> PathBuf {
+    match std::env::var("STORAGE_PATH") {
+        Ok(p) => PathBuf::from(p),
+        Err(_) => PathBuf::from(concat!(env!("CARGO_MANIFEST_DIR"), "/../storage")),
+    }
+}
 
 pub enum StorageFolder {
     Root,
@@ -59,7 +64,7 @@ impl FileService {
             return Err(FileValidationError::EmptyPath);
         }
 
-        let base_path = PathBuf::from(STORAGE_PATH).join(folder.subfolder());
+        let base_path = storage_path().join(folder.subfolder());
 
         // Rechazar caracteres prohibidos antes de cualquier parseo
         if filename.contains('\0') || filename.contains('\\') {
