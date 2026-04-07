@@ -1,0 +1,10 @@
+### Verificar carnet (login)
+# SERIAL = campo SKU del carnet en MongoDB
+# TOKEN = token en texto plano del carnet (antes del hash bcrypt)
+POST {{$dotenv BASE_URL}}/talento_humano/verify
+Content-Type: application/json
+
+{
+    "serial": {{$dotenv SERIAL}},
+    "token": "{{$dotenv TOKEN}}"
+}
