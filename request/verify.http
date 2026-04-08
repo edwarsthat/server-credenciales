@@ -1,0 +1,10 @@
+### Verificar carnet (login)
+# serial = campo SKU del carnet en MongoDB
+# token = token en texto plano (antes del hash bcrypt)
+POST http://localhost:3306/talento_humano/verify
+Content-Type: application/json
+
+{
+    "serial": 274,
+    "token": "96f4ce83-13dc-4564-9b14-6e933a643215"
+}

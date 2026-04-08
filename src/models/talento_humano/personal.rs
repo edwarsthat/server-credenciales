@@ -13,12 +13,12 @@ pub struct Personal {
     pub pe: i64,
     pub nombre: String,
     pub cargo: Option<CargoRef>,
-    pub identificacion: String,
+    pub identificacion: Option<String>,
     pub tipo_documento: TipoDocumento,
     pub foto: Option<String>,
     pub tipo_sangre: Option<String>,
-    pub url_identificacion: String,
-    pub url_foto_carnet: String,
+    pub url_identificacion: Option<String>,
+    pub url_foto_carnet: Option<String>,
     pub estado: bool,
     #[serde(skip_serializing_if = "Option::is_none", serialize_with = "serialize_oid")]
     pub carnet: Option<ObjectId>,
@@ -126,10 +126,10 @@ pub struct EncuestaSocioeconomicaDto {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub enum TipoDocumento {
-    #[serde(rename = "cedula")]
+    #[serde(rename = "cedula", alias = "Cedula")]
     Cedula,
-    #[serde(rename = "pasaporte")]
+    #[serde(rename = "pasaporte", alias = "Pasaporte")]
     Pasaporte,
-    #[serde(rename = "cedula_extranjera")]
+    #[serde(rename = "cedula_extranjera", alias = "Cedula_extranjera", alias = "CedulaExtranjera")]
     CedulaExtranjera,
 }

@@ -25,6 +25,7 @@ pub fn create_router(db_pool: MongoDb) -> Router {
         .merge(routes::media::routes())
         .merge(routes::healt::routes())
         .merge(routes::talento_humano::routes())
+        .merge(routes::talento_humano_routes::encuesta_socioeconomica::routes())
         .fallback(handler_404)
         .layer(cors)
         .with_state(state)

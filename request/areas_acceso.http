@@ -1,0 +1,2 @@
+### Obtener áreas de acceso
+GET http://localhost:3306/talento_humano/areas_acceso

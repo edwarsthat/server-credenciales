@@ -1,10 +1,14 @@
 ### Verificar carnet (login)
 # SERIAL = campo SKU del carnet en MongoDB
 # TOKEN = token en texto plano del carnet (antes del hash bcrypt)
-POST {{$dotenv BASE_URL}}/talento_humano/verify
+POST http://localhost:3306/talento_humano/verify
 Content-Type: application/json
 
 {
-    "serial": {{$dotenv SERIAL}},
-    "token": "{{$dotenv TOKEN}}"
+    "serial": 161,
+    "token": "$2b$10$6dchsY.FsavLqHsNOh8cgeY50nYsEfi49YwusEIVrEIRb7xfFTKTe"
 }
+
+### Obtener datos del usuario autenticado
+GET http://localhost:3306/auth/me
+Cookie: token=test123
