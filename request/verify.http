@@ -5,6 +5,6 @@ POST http://localhost:3306/talento_humano/verify
 Content-Type: application/json
 
 {
-    "serial": 274,
-    "token": "96f4ce83-13dc-4564-9b14-6e933a643215"
+    "serial": 2,
+    "token": "34d817ce-2683-4e71-a1a8-26ab05aea5ce"
 }

@@ -18,7 +18,8 @@ pub struct Personal {
     pub nombre: String,
     pub cargo: Option<CargoRef>,
     pub identificacion: Option<String>,
-    pub tipo_documento: TipoDocumento,
+    #[serde(rename = "tipo_documento")]
+    pub tipo_documento: Option<TipoDocumento>,
     pub foto: Option<String>,
     pub tipo_sangre: Option<String>,
     pub url_identificacion: Option<String>,

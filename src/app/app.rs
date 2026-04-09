@@ -19,7 +19,7 @@ pub fn create_router(db_pool: MongoDb) -> Router {
     let cors = CorsLayer::new()
         .allow_origin([
             "https://credenciales.celifrut.com".parse::<HeaderValue>().unwrap(),
-            "http://localhost:5173".parse::<HeaderValue>().unwrap(),
+            "http://localhost:5174".parse::<HeaderValue>().unwrap(),
         ])
         .allow_methods([Method::GET, Method::POST, Method::PUT, Method::DELETE, Method::OPTIONS])
         .allow_headers([header::CONTENT_TYPE, header::AUTHORIZATION, header::ACCEPT])
