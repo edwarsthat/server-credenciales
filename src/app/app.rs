@@ -1,8 +1,10 @@
 use axum::Router;
 use axum::http::{HeaderValue, Method, header};
+use axum::middleware;
 use tower_http::cors::CorsLayer;
 
 use crate::app::error::ApiError;
+use crate::app::rate_limiter::{RateLimiter, rate_limit_middleware};
 use crate::db::mongodb::MongoDb;
 use crate::routes;
 
@@ -20,6 +22,9 @@ pub fn create_router(db_pool: MongoDb) -> Router {
         .allow_headers([header::CONTENT_TYPE, header::AUTHORIZATION, header::ACCEPT])
         .allow_credentials(true);
 
+    // 60 peticiones por minuto por IP
+    let limiter = RateLimiter::new(60, 60);
+
     Router::new()
         .merge(routes::auth::routes())
         .merge(routes::media::routes())
@@ -27,6 +32,7 @@ pub fn create_router(db_pool: MongoDb) -> Router {
         .merge(routes::talento_humano::routes())
         .merge(routes::talento_humano_routes::encuesta_socioeconomica::routes())
         .fallback(handler_404)
+        .layer(middleware::from_fn_with_state(limiter, rate_limit_middleware))
         .layer(cors)
         .with_state(state)
 }

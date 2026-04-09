@@ -45,7 +45,11 @@ async fn health_check(State(state): State<AppState>) -> impl IntoResponse {
         },
         db: DbStatus {
             ok: health.db_ok,
-            message: health.db_message,
+            message: if health.db_ok {
+                "Database available".to_string()
+            } else {
+                "Database unavailable".to_string()
+            },
         },
     });
 
