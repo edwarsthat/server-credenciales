@@ -5,6 +5,7 @@ use crate::{
     db::mongodb::MongoDb,
     models::talento_humano::personal::EncuestaSocioeconomicaDto,
     repository::talento_humano::personal::{PersonalRepository, UpdateOptions},
+    validators::personal::validate_encuesta,
 };
 
 pub async fn encuesta_socioeconomica_controller(
@@ -12,6 +13,8 @@ pub async fn encuesta_socioeconomica_controller(
     empleado_id: ObjectId,
     body: EncuestaSocioeconomicaDto,
 ) -> Result<(), ApiError> {
+    let body = validate_encuesta(body)?;
+
     let mut set = to_document(&body)
         .map_err(|e| ApiError::InternalError(format!("Error al serializar datos: {}", e)))?;
 
