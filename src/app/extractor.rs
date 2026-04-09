@@ -51,10 +51,13 @@ where
         let jwt_secret = std::env::var("JWT_SECRET")
             .map_err(|_| ApiError::InternalError("JWT_SECRET no configurado".to_string()))?;
 
+        let mut validation = Validation::default();
+        validation.validate_exp = true;
+
         let data = decode::<Claims>(
             token,
             &DecodingKey::from_secret(jwt_secret.as_bytes()),
-            &Validation::default(),
+            &validation,
         )
         .map_err(|_| ApiError::Unauthorized("Token inválido o expirado".to_string()))?;
 

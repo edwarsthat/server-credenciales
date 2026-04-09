@@ -1,4 +1,4 @@
-use mongodb::bson::{doc, oid::ObjectId, to_document};
+use mongodb::bson::{DateTime, doc, oid::ObjectId, to_document};
 
 use crate::{
     app::error::ApiError,
@@ -12,12 +12,14 @@ pub async fn encuesta_socioeconomica_controller(
     empleado_id: ObjectId,
     body: EncuestaSocioeconomicaDto,
 ) -> Result<(), ApiError> {
-    let set = to_document(&body)
+    let mut set = to_document(&body)
         .map_err(|e| ApiError::InternalError(format!("Error al serializar datos: {}", e)))?;
 
     if set.is_empty() {
         return Err(ApiError::BadRequest("No se enviaron campos para actualizar".to_string()));
     }
+
+    set.insert("fecha_formulario_sociodemografico", DateTime::now());
 
     let repo = PersonalRepository::new(&db.db);
 

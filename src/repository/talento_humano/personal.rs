@@ -17,6 +17,7 @@ pub struct QueryOptions {
     pub sort: Option<Document>,
     pub limit: Option<i64>,
     pub skip: Option<u64>,
+    pub projection: Option<Document>,
     pub populate: bool,
 }
 
@@ -32,6 +33,7 @@ impl Default for QueryOptions {
             sort: None,
             limit: None,
             skip: None,
+            projection: None,
             populate: false,
         }
     }
@@ -59,6 +61,7 @@ impl PersonalRepository {
             .sort(options.sort)
             .limit(options.limit)
             .skip(options.skip)
+            .projection(options.projection)
             .build();
 
         let cursor = self
@@ -123,6 +126,9 @@ impl PersonalRepository {
         }
         if let Some(limit) = options.limit {
             pipeline.push(doc! { "$limit": limit });
+        }
+        if let Some(projection) = options.projection {
+            pipeline.push(doc! { "$project": projection });
         }
 
         let cursor = self.collection.aggregate(pipeline).await.map_err(|e| {

@@ -1,4 +1,4 @@
-use mongodb::bson::oid::ObjectId;
+use mongodb::bson::{oid::ObjectId, DateTime};
 use serde::{Deserialize, Serialize, Serializer};
 
 use crate::models::talento_humano::cargos_personal::CargosPersonal;
@@ -7,7 +7,11 @@ use crate::models::utils::serialize_oid;
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Personal {
-    #[serde(rename = "_id", skip_serializing_if = "Option::is_none", serialize_with = "serialize_oid")]
+    #[serde(
+        rename = "_id",
+        skip_serializing_if = "Option::is_none",
+        serialize_with = "serialize_oid"
+    )]
     pub id: Option<ObjectId>,
     #[serde(rename = "PE")]
     pub pe: i64,
@@ -20,7 +24,10 @@ pub struct Personal {
     pub url_identificacion: Option<String>,
     pub url_foto_carnet: Option<String>,
     pub estado: bool,
-    #[serde(skip_serializing_if = "Option::is_none", serialize_with = "serialize_oid")]
+    #[serde(
+        skip_serializing_if = "Option::is_none",
+        serialize_with = "serialize_oid"
+    )]
     pub carnet: Option<ObjectId>,
     #[serde(rename = "__v", skip_serializing)]
     pub v: Option<i32>,
@@ -51,6 +58,7 @@ pub struct Personal {
     pub contacto_emergencia_parentesco: Option<String>,
     pub tiene_vehiculo: Option<bool>,
     pub estado_civil: Option<String>,
+    pub fecha_formulario_sociodemografico: Option<DateTime>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -122,6 +130,8 @@ pub struct EncuestaSocioeconomicaDto {
     pub tiene_vehiculo: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub estado_civil: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub fecha_formulario_sociodemografico: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -130,6 +140,10 @@ pub enum TipoDocumento {
     Cedula,
     #[serde(rename = "pasaporte", alias = "Pasaporte")]
     Pasaporte,
-    #[serde(rename = "cedula_extranjera", alias = "Cedula_extranjera", alias = "CedulaExtranjera")]
+    #[serde(
+        rename = "cedula_extranjera",
+        alias = "Cedula_extranjera",
+        alias = "CedulaExtranjera"
+    )]
     CedulaExtranjera,
 }

@@ -28,5 +28,6 @@ Cookie: token=test123
     "contactoEmergenciaTelefono": "3109876543",
     "contactoEmergenciaParentesco": "madre",
     "tieneVehiculo": false,
-    "estadoCivil": "soltero"
+    "estadoCivil": "soltero",
+    "fecha_formulario_sociodemografico": "2024-06-01T12:00:00Z"
 }
