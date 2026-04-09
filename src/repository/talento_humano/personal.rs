@@ -155,7 +155,7 @@ impl PersonalRepository {
 
         docs.into_iter()
             .map(|doc| {
-                mongodb::bson::from_document(doc).map_err(|e| {
+mongodb::bson::from_document(doc).map_err(|e| {
                     MongoDbError::new(
                         2012,
                         &format!("Error deserializando personal: {}", e),

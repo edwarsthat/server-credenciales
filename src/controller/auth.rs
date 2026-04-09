@@ -20,10 +20,10 @@ pub async fn me(db: &MongoDb, token_data: TokenData) -> Result<Personal, ApiErro
                 "nombre": 1,
                 "cargo": 1,
                 "identificacion": 1,
-                "tipo_documento": 1,
+                "tipoDocumento": 1,
                 "foto": 1,
-                "tipo_sangre": 1,
-                "url_foto_carnet": 1,
+                "tipoSangre": 1,
+                "urlFotoCarnet": 1,
                 "estado": 1,
                 "fecha_formulario_sociodemografico": 1
             }),

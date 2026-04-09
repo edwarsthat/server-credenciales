@@ -3,7 +3,6 @@ POST http://localhost:3306/talento-humano/encuesta-socioeconomica
 Content-Type: application/json
 Cookie: token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2OWQzZmIwMzQ1MmZkNDA5ZjdmYWQzZDQiLCJwZSI6MiwiZXhwIjoxNzc1NzY5NTA4fQ.t-JGJ6B1Tr6vMmXkMjrMODc0nSSgtgrZSWlPE0NUOCo
 
-
 {
     "genero": "masculino",
     "nacionalidad": "colombiana",
