@@ -14,9 +14,9 @@ pub async fn me(db: &MongoDb, token_data: TokenData) -> Result<Personal, ApiErro
     let mut results = personal_repo
         .get_data(QueryOptions {
             filter: Some(doc! { "_id": id }),
-            projection: Some(doc! { 
+            projection: Some(doc! {
                 "id": 1,
-                "pe": 1,
+                "PE": 1,
                 "nombre": 1,
                 "cargo": 1,
                 "identificacion": 1,
