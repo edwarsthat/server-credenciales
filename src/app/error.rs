@@ -27,7 +27,10 @@ impl IntoResponse for ApiError {
         let (status, message) = match self {
             ApiError::NotFound(msg) => (StatusCode::NOT_FOUND, msg),
             ApiError::BadRequest(msg) => (StatusCode::BAD_REQUEST, msg),
-            ApiError::InternalError(msg) => (StatusCode::INTERNAL_SERVER_ERROR, msg),
+            ApiError::InternalError(msg) => {
+                eprintln!("[ERROR 500] {}", msg);
+                (StatusCode::INTERNAL_SERVER_ERROR, msg)
+            }
             ApiError::Unauthorized(msg) => (StatusCode::UNAUTHORIZED, msg),
         };
 

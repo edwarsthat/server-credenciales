@@ -1,7 +1,14 @@
+@token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2OWQzZmIwMzQ1MmZkNDA5ZjdmYWQzZDQiLCJwZSI6MiwiZXhwIjoxNzc1ODM2MjAwfQ.o8z3b8Pp24iXb0bomElt-N_ZxPUBqLnbt1nV7yyipCs
+### Obtener encuesta socioeconómica
+GET http://localhost:3306/talento-humano/encuesta-socioeconomica
+Cookie: token={{token}}
+
+###
+
 ### Guardar encuesta socioeconómica
 POST http://localhost:3306/talento-humano/encuesta-socioeconomica
 Content-Type: application/json
-Cookie: token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2OWQzZmIwMzQ1MmZkNDA5ZjdmYWQzZDQiLCJwZSI6MiwiZXhwIjoxNzc1NzY5NTA4fQ.t-JGJ6B1Tr6vMmXkMjrMODc0nSSgtgrZSWlPE0NUOCo
+Cookie: token={{token}}
 
 {
     "genero": "masculino",

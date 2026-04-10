@@ -8,7 +8,6 @@ use crate::repository::talento_humano::personal::{PersonalRepository, QueryOptio
 
 pub async fn me(db: &MongoDb, token_data: TokenData) -> Result<Personal, ApiError> {
     let id = token_data.empleado_id;
-    println!("Empleado ID extraído del token: {}", id);
     let personal_repo = PersonalRepository::new(&db.db);
 
     let mut results = personal_repo
