@@ -50,6 +50,7 @@ pub async fn get_encuesta_socioeconomica_controller(
                 "_id": 1,
                 "PE": 1,
                 "nombre": 1,
+                "apellido": 1,
                 "cargo": 1,
                 "identificacion": 1,
                 "tipoDocumento": 1,

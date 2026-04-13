@@ -16,6 +16,7 @@ pub struct Personal {
     #[serde(rename = "PE")]
     pub pe: i64,
     pub nombre: String,
+    pub apellido: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub cargo: Option<CargoRef>,
     #[serde(skip_serializing_if = "Option::is_none")]

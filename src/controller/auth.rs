@@ -17,6 +17,7 @@ pub async fn me(db: &MongoDb, token_data: TokenData) -> Result<Personal, ApiErro
                 "id": 1,
                 "PE": 1,
                 "nombre": 1,
+                "apellido": 1,
                 "cargo": 1,
                 "identificacion": 1,
                 "tipoDocumento": 1,
