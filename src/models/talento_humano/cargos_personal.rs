@@ -9,7 +9,7 @@ pub struct CargosPersonal {
     #[serde(rename = "_id", skip_serializing_if = "Option::is_none", serialize_with = "serialize_oid")]
     pub id: Option<ObjectId>,
     pub nombre: String,
-    #[serde(serialize_with = "serialize_oid_vec")]
+    #[serde(rename = "areasAcesso", serialize_with = "serialize_oid_vec")]
     pub areas: Vec<ObjectId>,
     pub color: Color,
 }
