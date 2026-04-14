@@ -1,0 +1,14 @@
+### Verificar carnet (login)
+# SERIAL = campo SKU del carnet en MongoDB
+# TOKEN = token en texto plano del carnet (antes del hash bcrypt)
+POST http://localhost:3306/talento_humano/verify
+Content-Type: application/json
+
+{
+    "serial": 2,
+    "token": "34d817ce-2683-4e71-a1a8-26ab05aea5ce"
+}
+
+### Obtener datos del usuario autenticado
+GET http://localhost:3306/auth/me
+Cookie: token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2OWQzZmIwMzQ1MmZkNDA5ZjdmYWQzZDQiLCJwZSI6MiwiZXhwIjoxNzc1NzY5NTA4fQ.t-JGJ6B1Tr6vMmXkMjrMODc0nSSgtgrZSWlPE0NUOCo

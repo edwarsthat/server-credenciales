@@ -1,4 +1,5 @@
 use std::error::Error;
+use std::net::SocketAddr;
 use std::process;
 use tokio::net::TcpListener;
 use credenciales_service::config::env;
@@ -34,7 +35,7 @@ async fn run() -> Result<(), Box<dyn Error + Send + Sync>> {
         }
     };
 
-    axum::serve(listener, app).await?;
+    axum::serve(listener, app.into_make_service_with_connect_info::<SocketAddr>()).await?;
 
     Ok(())
 }

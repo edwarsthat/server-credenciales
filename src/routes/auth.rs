@@ -1,8 +1,8 @@
-use axum::{Json, Router, extract::State, http::header, routing::get};
-use axum::http::HeaderMap;
+use axum::{Json, Router, extract::State, routing::get};
 
 use crate::app::app::AppState;
 use crate::app::error::ApiError;
+use crate::app::extractor::TokenData;
 use crate::controller::auth::me;
 use crate::models::talento_humano::personal::Personal;
 
@@ -12,18 +12,8 @@ pub fn routes() -> Router<AppState> {
 
 async fn handler_me(
     State(state): State<AppState>,
-    headers: HeaderMap,
+    token_data: TokenData,
 ) -> Result<Json<Personal>, ApiError> {
-    let cookie_header = headers
-        .get(header::COOKIE)
-        .and_then(|v| v.to_str().ok())
-        .unwrap_or("");
-
-    let token = cookie_header
-        .split(';')
-        .find_map(|part| part.trim().strip_prefix("token="))
-        .ok_or_else(|| ApiError::Unauthorized("No hay sesión activa".to_string()))?;
-
-    let personal = me(&state.db, token).await?;
+    let personal = me(&state.db, token_data).await?;
     Ok(Json(personal))
 }

@@ -1,5 +1,4 @@
 use crate::app::error::ApiError;
-use crate::controller::auth::validate_token;
 use crate::services::file_service::{FileService, FileValidationError, StorageFolder};
 
 impl From<FileValidationError> for ApiError {
@@ -14,9 +13,7 @@ impl From<FileValidationError> for ApiError {
     }
 }
 
-pub async fn get_foto(token: &str, filename: &str) -> Result<(Vec<u8>, &'static str), ApiError> {
-    validate_token(token)?;
-
+pub async fn get_foto(filename: &str) -> Result<(Vec<u8>, &'static str), ApiError> {
     let service = FileService::new();
     let (bytes, content_type) = service.read_file(filename, StorageFolder::Root).await?;
 

@@ -36,7 +36,6 @@ async fn verify(
     Ok((headers, Json(carnet)))
 }
 
-
 async fn areas_acceso(
     State(state): State<AppState>,
 ) -> Result<Json<Vec<crate::models::instalaciones::AreaFisica>>, ApiError> {
