@@ -3,7 +3,22 @@ use crate::app::sanitize::{sanitize_alpha, sanitize_bool, sanitize_date, sanitiz
 use crate::models::talento_humano::personal::EncuestaSocioeconomicaDto;
 
 pub fn validate_encuesta(dto: EncuestaSocioeconomicaDto) -> Result<EncuestaSocioeconomicaDto, ApiError> {
+    let nombre = sanitize_alpha(dto.nombre)
+        .ok_or_else(|| ApiError::BadRequest("Nombre inválido".to_string()))?;
+
+    let apellido = sanitize_alpha(dto.apellido)
+        .ok_or_else(|| ApiError::BadRequest("Apellido inválido".to_string()))?;
+
+    let identificacion = sanitize_text(dto.identificacion)
+        .and_then(|s| if s.len() <= 20 { Some(s) } else { None })
+        .ok_or_else(|| ApiError::BadRequest("Identificación inválida".to_string()))?;
+
     Ok(EncuestaSocioeconomicaDto {
+        nombre,
+        apellido,
+        identificacion,
+        tipo_documento: dto.tipo_documento,
+        tipo_sangre: dto.tipo_sangre.and_then(|s| with_max_len(3)(s)).and_then(sanitize_text),
         genero: dto.genero.and_then(sanitize_alpha),
         nacionalidad: dto.nacionalidad.and_then(sanitize_text),
         fecha_nacimiento: dto.fecha_nacimiento.and_then(sanitize_date),

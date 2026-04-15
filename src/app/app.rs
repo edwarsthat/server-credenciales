@@ -6,15 +6,17 @@ use tower_http::cors::CorsLayer;
 use crate::app::error::ApiError;
 use crate::app::rate_limiter::{RateLimiter, rate_limit_middleware};
 use crate::db::mongodb::MongoDb;
+use crate::db::redis::RedisDb;
 use crate::routes;
 
 #[derive(Clone)]
 pub struct AppState {
     pub db: MongoDb,
+    pub redis: RedisDb
 }
 
-pub fn create_router(db_pool: MongoDb) -> Router {
-    let state = AppState { db: db_pool };
+pub fn create_router(db_pool: MongoDb, redis_db: RedisDb) -> Router {
+    let state = AppState { db: db_pool, redis: redis_db };
 
     let cors = CorsLayer::new()
         .allow_origin([

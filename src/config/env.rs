@@ -13,6 +13,7 @@ pub struct ServerConfig {
     pub db_name: String,
     pub db_replica_set: String,
     pub db_auth_source: String,
+    pub redis_url: String,
 }
 
 impl ServerConfig {
@@ -47,6 +48,7 @@ fn load_config_from_env() -> Result<ServerConfig, EnvVarError> {
     let db_name = get_env_string("DB_NAME")?;
     let db_replica_set = get_env_string("DB_REPLICA_SET")?;
     let db_auth_source = get_env_string("DB_AUTH_SOURCE")?;
+    let redis_url = get_env_string("REDIS_URL")?;
 
     println!(
         "Configuración cargada: HOST={}, PORT={}, DB_HOST={}, DB_PORT={}",
@@ -63,6 +65,7 @@ fn load_config_from_env() -> Result<ServerConfig, EnvVarError> {
         db_name,
         db_replica_set,
         db_auth_source,
+        redis_url,
     })
 }
 

@@ -1,8 +1,8 @@
 use axum::{Json, Router, extract::State, routing::{get, post}};
 
 use crate::{
-    app::{app::AppState, error::ApiError, extractor::TokenData},
-    controller::talento_humano::encuesta_socioeconomica::{encuesta_socioeconomica_controller, get_encuesta_socioeconomica_controller},
+    app::{app::AppState, error::ApiError, extractor::{MaybeTokenData, TokenData}},
+    controller::talento_humano::encuesta_socioeconomica::{encuesta_socioeconomica_controller, encuesta_socioeconomica_controller_without_token, get_encuesta_socioeconomica_controller},
     models::talento_humano::personal::{EncuestaSocioeconomicaDto, Personal},
 };
 
@@ -14,10 +14,17 @@ pub fn routes() -> Router<AppState> {
 
 async fn encuesta_socioeconomica_endpoint(
     State(state): State<AppState>,
-    auth: TokenData,
+    MaybeTokenData(maybe_token): MaybeTokenData,
     Json(body): Json<EncuestaSocioeconomicaDto>,
 ) -> Result<(), ApiError> {
-    encuesta_socioeconomica_controller(&state.db, auth.empleado_id, body).await
+    match maybe_token {
+        Some(token_data) => {
+            encuesta_socioeconomica_controller(&state.db, token_data.empleado_id, body).await
+        }
+        None => {
+            encuesta_socioeconomica_controller_without_token(&state.redis, body).await
+        }
+    }
 }
 
 async fn encuesta_socioeconomica_get_endpoint(

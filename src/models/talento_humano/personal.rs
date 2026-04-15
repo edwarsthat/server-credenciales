@@ -1,4 +1,4 @@
-use mongodb::bson::{oid::ObjectId, DateTime};
+use mongodb::bson::{DateTime, oid::ObjectId};
 use serde::{Deserialize, Serialize, Serializer};
 
 use crate::models::talento_humano::cargos_personal::CargosPersonal;
@@ -15,18 +15,10 @@ pub struct Personal {
     pub id: Option<ObjectId>,
     #[serde(rename = "PE")]
     pub pe: i64,
-    pub nombre: String,
-    pub apellido: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub cargo: Option<CargoRef>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub identificacion: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub tipo_documento: Option<TipoDocumento>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub foto: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub tipo_sangre: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub url_identificacion: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -41,6 +33,14 @@ pub struct Personal {
     pub v: Option<i32>,
 
     // Campos adicionales para información personal
+    pub nombre: String,
+    pub apellido: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub identificacion: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tipo_documento: Option<TipoDocumento>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tipo_sangre: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub genero: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -91,7 +91,10 @@ pub struct Personal {
     pub tiene_vehiculo: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub estado_civil: Option<String>,
-    #[serde(rename = "fecha_formulario_sociodemografico", skip_serializing_if = "Option::is_none")]
+    #[serde(
+        rename = "fecha_formulario_sociodemografico",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub fecha_formulario_sociodemografico: Option<DateTime>,
 }
 
@@ -114,6 +117,13 @@ impl Serialize for CargoRef {
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct EncuestaSocioeconomicaDto {
+    pub nombre: String,
+    pub apellido: String,
+    pub identificacion: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tipo_documento: Option<TipoDocumento>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tipo_sangre: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub genero: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]

@@ -21,9 +21,11 @@ async fn run() -> Result<(), Box<dyn Error + Send + Sync>> {
     let config = env::load_config()?;
     let mongo_client =
         db::mongodb::MongoDb::create_connection(&config.mongo_url(), &config.db_name).await?;
+    let redis_db = 
+        db::redis::RedisDb::create_connection(&config.redis_url).await?;
 
     let addr = format!("{}:{}", config.host, config.port);
-    let app = app::app::create_router(mongo_client);
+    let app = app::app::create_router(mongo_client, redis_db);
 
     let listener = match TcpListener::bind(&addr).await {
         Ok(listener) => {

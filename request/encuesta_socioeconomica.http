@@ -5,6 +5,45 @@ Cookie: token={{token}}
 
 ###
 
+### Guardar encuesta socioeconómica sin token (guarda en Redis)
+POST http://localhost:3306/talento-humano/encuesta-socioeconomica
+Content-Type: application/json
+
+{
+    "nombre": "Juan",
+    "apellido": "Pérez",
+    "identificacion": "1234567890",
+    "tipoDocumento": "cedula",
+    "tipoSangre": "O+",
+    "genero": "masculino",
+    "nacionalidad": "colombiana",
+    "fechaNacimiento": "1990-05-15",
+    "raza": "mestizo",
+    "eps": "Sura",
+    "pension": "Porvenir",
+    "cesantias": "Porvenir",
+    "celular": "3001234567",
+    "correo": "juan@correo.com",
+    "escolaridad": "universitario",
+    "tituloObtenido": "Ingeniería de Sistemas",
+    "departamento": "Antioquia",
+    "municipio": "Medellín",
+    "tipoVivienda": "arrendada",
+    "direccion": "Calle 10 #20-30",
+    "strato": "3",
+    "personasACargo": 2,
+    "vulnerabilidad": "ninguna",
+    "orientacionSexual": "heterosexual",
+    "pertenenciaEtnica": "ninguna",
+    "contactoEmergenciaNombre": "María López",
+    "contactoEmergenciaTelefono": "3109876543",
+    "contactoEmergenciaParentesco": "madre",
+    "tieneVehiculo": false,
+    "estadoCivil": "soltero"
+}
+
+###
+
 ### Guardar encuesta socioeconómica
 POST http://localhost:3306/talento-humano/encuesta-socioeconomica
 Content-Type: application/json

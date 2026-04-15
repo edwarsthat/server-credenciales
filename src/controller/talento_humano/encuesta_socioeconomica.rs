@@ -1,8 +1,11 @@
 use mongodb::bson::{DateTime, doc, oid::ObjectId, to_document};
+use redis::AsyncCommands;
+use serde_json;
 
 use crate::{
     app::{error::ApiError, extractor::TokenData},
     db::mongodb::MongoDb,
+    db::redis::RedisDb,
     models::talento_humano::personal::{EncuestaSocioeconomicaDto, Personal},
     repository::talento_humano::personal::{PersonalRepository, QueryOptions, UpdateOptions},
     validators::personal::validate_encuesta,
@@ -34,6 +37,25 @@ pub async fn encuesta_socioeconomica_controller(
     })
     .await
     .map_err(|e| ApiError::InternalError(e.message().to_string()))
+}
+
+pub async fn encuesta_socioeconomica_controller_without_token(
+    redis_db: &RedisDb,
+    body: EncuestaSocioeconomicaDto,
+) -> Result<(), ApiError> {
+    let body = validate_encuesta(body)?;
+
+    let key = format!("encuesta:pending:{}", body.identificacion);
+
+    let json = serde_json::to_string(&body)
+        .map_err(|e| ApiError::InternalError(format!("Error al serializar datos: {}", e)))?;
+
+    let mut conn = redis_db.manager.clone();
+    conn.set_ex::<_, _, ()>(&key, json, 86400)
+        .await
+        .map_err(|e| ApiError::InternalError(format!("Error al guardar en Redis: {}", e)))?;
+
+    Ok(())
 }
 
 pub async fn get_encuesta_socioeconomica_controller(
