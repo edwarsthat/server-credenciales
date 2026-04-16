@@ -22,7 +22,6 @@ async fn verify(
     State(state): State<AppState>,
     Json(body): Json<VerifyBody>,
 ) -> Result<impl IntoResponse, ApiError> {
-    println!("{:?}", body);
     let carnet = verify_carnet(&state.db, body.serial, body.token).await?;
 
     let cookie = format!(

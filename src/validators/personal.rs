@@ -43,7 +43,7 @@ pub fn validate_encuesta(dto: EncuestaSocioeconomicaDto) -> Result<EncuestaSocio
         contacto_emergencia_parentesco: dto.contacto_emergencia_parentesco.and_then(sanitize_alpha),
         tiene_vehiculo: dto.tiene_vehiculo.and_then(sanitize_bool),
         estado_civil: dto.estado_civil.and_then(sanitize_alpha),
-        fecha_formulario_sociodemografico: dto.fecha_formulario_sociodemografico.and_then(sanitize_date),
+        fecha_formulario_sociodemografico: dto.fecha_formulario_sociodemografico,
         personas_a_cargo: dto.personas_a_cargo.filter(|&n| n >= 0 && n <= 20),
     })
 }

@@ -2,7 +2,7 @@ use mongodb::bson::{DateTime, oid::ObjectId};
 use serde::{Deserialize, Serialize, Serializer};
 
 use crate::models::talento_humano::cargos_personal::CargosPersonal;
-use crate::models::utils::serialize_oid;
+use crate::models::utils::{serialize_oid, serialize_datetime};
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -73,7 +73,7 @@ pub struct Personal {
     pub direccion: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub strato: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "personasACargo", skip_serializing_if = "Option::is_none")]
     pub personas_a_cargo: Option<i32>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub vulnerabilidad: Option<String>,
@@ -93,7 +93,8 @@ pub struct Personal {
     pub estado_civil: Option<String>,
     #[serde(
         rename = "fecha_formulario_sociodemografico",
-        skip_serializing_if = "Option::is_none"
+        skip_serializing_if = "Option::is_none",
+        serialize_with = "serialize_datetime"
     )]
     pub fecha_formulario_sociodemografico: Option<DateTime>,
 }
@@ -156,7 +157,7 @@ pub struct EncuestaSocioeconomicaDto {
     pub direccion: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub strato: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(rename = "personasACargo", skip_serializing_if = "Option::is_none")]
     pub personas_a_cargo: Option<i32>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub vulnerabilidad: Option<String>,
@@ -174,8 +175,12 @@ pub struct EncuestaSocioeconomicaDto {
     pub tiene_vehiculo: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub estado_civil: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub fecha_formulario_sociodemografico: Option<String>,
+    #[serde(
+        rename = "fecha_formulario_sociodemografico",
+        skip_serializing_if = "Option::is_none",
+        serialize_with = "serialize_datetime"
+    )]
+    pub fecha_formulario_sociodemografico: Option<DateTime>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
