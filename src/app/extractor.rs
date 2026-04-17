@@ -38,13 +38,16 @@ where
             .find_map(|part| part.trim().strip_prefix("token="))
             .ok_or_else(|| ApiError::Unauthorized("No hay sesión activa".to_string()))?;
 
-        // Modo desarrollo: si DEV_TOKEN está definido y coincide, retorna un TokenData fijo
-        if let Ok(dev_token) = std::env::var("DEV_TOKEN") {
-            if token == dev_token {
-                return Ok(TokenData {
-                    empleado_id: ObjectId::parse_str("69d3d516279d8dcac927c15c").unwrap(),
-                    pe: 139,
-                });
+        // --- SOLUCIÓN: Solo se incluye si NO es una build de release ---
+        #[cfg(debug_assertions)]
+        {
+            if let Ok(dev_token) = std::env::var("DEV_TOKEN") {
+                if token == dev_token {
+                    return Ok(TokenData {
+                        empleado_id: ObjectId::parse_str("69d3d516279d8dcac927c15c").unwrap(),
+                        pe: 139,
+                    });
+                }
             }
         }
 
