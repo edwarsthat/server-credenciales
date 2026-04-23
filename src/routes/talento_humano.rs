@@ -5,6 +5,7 @@ use serde::Deserialize;
 use crate::app::app::AppState;
 use crate::app::error::ApiError;
 use crate::controller::talento_humano::personal::verify_carnet;
+use crate::controller::talento_humano;
 
 #[derive(Deserialize, Debug)]
 pub struct VerifyBody {
@@ -38,6 +39,6 @@ async fn verify(
 async fn areas_acceso(
     State(state): State<AppState>,
 ) -> Result<Json<Vec<crate::models::instalaciones::AreaFisica>>, ApiError> {
-    let areas = crate::controller::talento_humano::instalaciones::get_areas_acceso(&state.db).await?;
+    let areas = talento_humano::instalaciones::get_areas_acceso(&state.db).await?;
     Ok(Json(areas))
 }

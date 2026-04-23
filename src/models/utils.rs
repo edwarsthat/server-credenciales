@@ -28,3 +28,19 @@ where
     let strings: Vec<String> = ids.iter().map(|oid| oid.to_hex()).collect();
     strings.serialize(serializer)
 }
+
+pub fn serialize_oid_vec_option<S>(
+    ids: &Option<Vec<ObjectId>>,
+    serializer: S,
+) -> Result<S::Ok, S::Error>
+where
+    S: Serializer,
+{
+    match ids {
+        Some(vec) => {
+            let strings: Vec<String> = vec.iter().map(|oid| oid.to_hex()).collect();
+            strings.serialize(serializer)
+        }
+        None => serializer.serialize_none(),
+    }
+}

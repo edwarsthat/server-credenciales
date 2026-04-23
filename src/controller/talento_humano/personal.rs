@@ -23,6 +23,8 @@ pub struct VerifyResponse {
 }
 
 pub async fn verify_carnet(db: &MongoDb, serial: i64, token: String) -> Result<VerifyResponse, ApiError> {
+    println!("[verify_carnet] serial={} token_len={}", serial, token.len());
+
     let carnets_repo = CarnetsRepository::new(&db.db);
 
     let mut results = carnets_repo
@@ -34,9 +36,13 @@ pub async fn verify_carnet(db: &MongoDb, serial: i64, token: String) -> Result<V
         .await
         .map_err(|e| ApiError::InternalError(e.message().to_string()))?;
 
+    println!("[verify_carnet] carnets encontrados: {}", results.len());
+
     let carnet = results
         .pop()
         .ok_or_else(|| ApiError::NotFound(format!("Carnet con serial {} no encontrado", serial)))?;
+
+    println!("[verify_carnet] carnet encontrado: SKU={} tiene_hash={}", carnet.sku, carnet.token_hash.is_some());
 
     let hash = carnet
         .token_hash
@@ -45,6 +51,8 @@ pub async fn verify_carnet(db: &MongoDb, serial: i64, token: String) -> Result<V
 
     let token_valido = bcrypt::verify(&token, hash)
         .map_err(|_| ApiError::InternalError("Error al verificar el token".to_string()))?;
+
+    println!("[verify_carnet] token_valido={}", token_valido);
 
     if !token_valido {
         return Err(ApiError::Unauthorized("Token inválido".to_string()));
