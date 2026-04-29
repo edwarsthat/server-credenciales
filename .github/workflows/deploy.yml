@@ -28,7 +28,7 @@ jobs:
             ${{ runner.os }}-cargo-
 
       - name: Compilar en release
-      - run: |
+        run: |
           cargo build --release
           strip target/release/credenciales-service
 

@@ -155,7 +155,7 @@ impl PersonalRepository {
 
         docs.into_iter()
             .map(|doc| {
-mongodb::bson::from_document(doc).map_err(|e| {
+                mongodb::bson::from_document(doc).map_err(|e| {
                     MongoDbError::new(
                         2012,
                         &format!("Error deserializando personal: {}", e),
@@ -169,32 +169,39 @@ mongodb::bson::from_document(doc).map_err(|e| {
     }
 
     pub async fn patch_data(&self, options: UpdateOptions) -> Result<(), MongoDbError> {
-        let filter = options.filter.ok_or_else(|| MongoDbError::new(
-            400,
-            "El filtro es requerido para actualizar",
-            MongoDbErrorKind::QueryFailed,
-            "patch_data",
-            "personal.rs",
-        ))?;
-        let update = options.update.ok_or_else(|| MongoDbError::new(
-            400,
-            "El documento de actualización es requerido",
-            MongoDbErrorKind::QueryFailed,
-            "patch_data",
-            "personal.rs",
-        ))?;
+        let filter = options.filter.ok_or_else(|| {
+            MongoDbError::new(
+                400,
+                "El filtro es requerido para actualizar",
+                MongoDbErrorKind::QueryFailed,
+                "patch_data",
+                "personal.rs",
+            )
+        })?;
+        let update = options.update.ok_or_else(|| {
+            MongoDbError::new(
+                400,
+                "El documento de actualización es requerido",
+                MongoDbErrorKind::QueryFailed,
+                "patch_data",
+                "personal.rs",
+            )
+        })?;
 
-        let result = self.collection
+        let result = self
+            .collection
             .update_one(filter, update)
             .await
-            .map_err(|e| MongoDbError::with_source(
-                2005,
-                "Error al actualizar documentos de personal",
-                MongoDbErrorKind::QueryFailed,
-                "collection.update_one",
-                "repository/talento_humano/personal.rs::patch_data",
-                e,
-            ))?;
+            .map_err(|e| {
+                MongoDbError::with_source(
+                    2005,
+                    "Error al actualizar documentos de personal",
+                    MongoDbErrorKind::QueryFailed,
+                    "collection.update_one",
+                    "repository/talento_humano/personal.rs::patch_data",
+                    e,
+                )
+            })?;
 
         if result.matched_count == 0 {
             return Err(MongoDbError::new(
