@@ -34,7 +34,7 @@ pub fn validate_encuesta(dto: EncuestaSocioeconomicaDto) -> Result<EncuestaSocio
         municipio: dto.municipio.and_then(sanitize_alpha),
         tipo_vivienda: dto.tipo_vivienda.and_then(sanitize_alpha),
         direccion: dto.direccion.and_then(sanitize_text),
-        strato: dto.strato.and_then(with_max_len(2)).and_then(sanitize_numeric),
+        estrato: dto.estrato.and_then(with_max_len(2)).and_then(sanitize_numeric),
         vulnerabilidad: dto.vulnerabilidad.and_then(sanitize_alpha),
         orientacion_sexual: dto.orientacion_sexual.and_then(sanitize_alpha),
         pertenencia_etnica: dto.pertenencia_etnica.and_then(sanitize_alpha),

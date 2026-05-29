@@ -39,13 +39,13 @@ pub struct Personal {
     pub identificacion: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tipo_documento: Option<TipoDocumento>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none", alias = "tipo_sangre")]
     pub tipo_sangre: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub genero: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub nacionalidad: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none", alias = "fecha_nacimiento")]
     pub fecha_nacimiento: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub raza: Option<String>,
@@ -72,7 +72,7 @@ pub struct Personal {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub direccion: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub strato: Option<String>,
+    pub estrato: Option<String>,
     #[serde(rename = "personasACargo", skip_serializing_if = "Option::is_none")]
     pub personas_a_cargo: Option<i32>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -121,15 +121,15 @@ pub struct EncuestaSocioeconomicaDto {
     pub nombre: String,
     pub apellido: String,
     pub identificacion: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none", alias = "tipo_documento")]
     pub tipo_documento: Option<TipoDocumento>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none", alias = "tipo_sangre")]
     pub tipo_sangre: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub genero: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub nacionalidad: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none", alias = "fecha_nacimiento")]
     pub fecha_nacimiento: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub raza: Option<String>,
@@ -145,40 +145,41 @@ pub struct EncuestaSocioeconomicaDto {
     pub correo: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub escolaridad: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none", alias = "titulo_obtenido")]
     pub titulo_obtenido: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub departamento: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub municipio: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none", alias = "tipo_vivienda")]
     pub tipo_vivienda: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub direccion: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub strato: Option<String>,
-    #[serde(rename = "personasACargo", skip_serializing_if = "Option::is_none")]
+    pub estrato: Option<String>,
+    #[serde(rename = "personasACargo", skip_serializing_if = "Option::is_none", alias = "personas_a_cargo")]
     pub personas_a_cargo: Option<i32>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub vulnerabilidad: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none", alias = "orientacion_sexual")]
     pub orientacion_sexual: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none", alias = "pertenencia_etnica")]
     pub pertenencia_etnica: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none", alias = "contacto_emergencia_nombre")]
     pub contacto_emergencia_nombre: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none", alias = "contacto_emergencia_telefono")]
     pub contacto_emergencia_telefono: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none", alias = "contacto_emergencia_parentesco")]
     pub contacto_emergencia_parentesco: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none", alias = "tiene_vehiculo")]
     pub tiene_vehiculo: Option<bool>,
-    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_serializing_if = "Option::is_none", alias = "estado_civil")]
     pub estado_civil: Option<String>,
     #[serde(
         rename = "fecha_formulario_sociodemografico",
         skip_serializing_if = "Option::is_none",
-        serialize_with = "serialize_datetime"
+        serialize_with = "serialize_datetime",
+        alias = "fecha_formulario_sociodemografico"
     )]
     pub fecha_formulario_sociodemografico: Option<DateTime>,
 }

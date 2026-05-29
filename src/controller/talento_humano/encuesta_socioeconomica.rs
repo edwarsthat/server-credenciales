@@ -96,7 +96,7 @@ pub async fn get_encuesta_socioeconomica_controller(
                 "municipio": 1,
                 "tipoVivienda": 1,
                 "direccion": 1,
-                "strato": 1,
+                "estrato": 1,
                 "personasACargo": 1,
                 "vulnerabilidad": 1,
                 "orientacionSexual": 1,
