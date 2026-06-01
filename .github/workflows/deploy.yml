@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -37,12 +40,30 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
 
-      - name: Subir binario al servidor
+      - name: Registrar host conocido
+        env:
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
         run: |
-          scp -o StrictHostKeyChecking=no -P ${{ secrets.SSH_PORT }} target/release/credenciales-service \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}/credenciales-service.new
+          mkdir -p ~/.ssh
+          echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Subir binario al servidor
+        env:
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+        run: |
+          scp -P "$SSH_PORT" target/release/credenciales-service \
+            "$SSH_USER@$SSH_HOST:$DEPLOY_PATH/credenciales-service.new"
 
       - name: Reemplazar binario y reiniciar servicio
+        env:
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
-          ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-            "mv ${{ secrets.DEPLOY_PATH }}/credenciales-service.new ${{ secrets.DEPLOY_PATH }}/credenciales-service && sudo systemctl restart credenciales-service"
+          ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
+            "mv '$DEPLOY_PATH/credenciales-service.new' '$DEPLOY_PATH/credenciales-service' && sudo systemctl restart credenciales-service"
