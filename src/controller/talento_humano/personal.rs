@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::app::error::ApiError;
 use crate::db::mongodb::MongoDb;
+use crate::models::talento_humano::carnets_personal::CarnetStatus;
 use crate::models::talento_humano::personal::Personal;
 use crate::repository::talento_humano::carnets::{CarnetsRepository, QueryOptions as CarnetQueryOptions};
 use crate::repository::talento_humano::personal::{PersonalRepository, QueryOptions as PersonalQueryOptions};
@@ -36,13 +37,14 @@ pub async fn verify_carnet(db: &MongoDb, serial: i64, token: String) -> Result<V
         .await
         .map_err(|e| ApiError::InternalError(e.message().to_string()))?;
 
-    println!("[verify_carnet] carnets encontrados: {}", results.len());
 
     let carnet = results
         .pop()
         .ok_or_else(|| ApiError::NotFound(format!("Carnet con serial {} no encontrado", serial)))?;
 
-    println!("[verify_carnet] carnet encontrado: SKU={} tiene_hash={}", carnet.sku, carnet.token_hash.is_some());
+    if carnet.status != CarnetStatus::Active {
+        return Err(ApiError::BadRequest("El carnet no es válido".to_string()));
+    }
 
     let hash = carnet
         .token_hash
@@ -52,7 +54,6 @@ pub async fn verify_carnet(db: &MongoDb, serial: i64, token: String) -> Result<V
     let token_valido = bcrypt::verify(&token, hash)
         .map_err(|_| ApiError::InternalError("Error al verificar el token".to_string()))?;
 
-    println!("[verify_carnet] token_valido={}", token_valido);
 
     if !token_valido {
         return Err(ApiError::Unauthorized("Token inválido".to_string()));

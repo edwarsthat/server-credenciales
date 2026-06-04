@@ -39,7 +39,7 @@ pub enum CarnetType {
     Final,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, PartialEq)]
 pub enum CarnetStatus {
     #[serde(rename = "stock")]
     Stock,
