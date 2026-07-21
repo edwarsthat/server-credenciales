@@ -45,5 +45,15 @@ pub fn validate_encuesta(dto: EncuestaSocioeconomicaDto) -> Result<EncuestaSocio
         estado_civil: dto.estado_civil.and_then(sanitize_alpha),
         fecha_formulario_sociodemografico: dto.fecha_formulario_sociodemografico,
         personas_a_cargo: dto.personas_a_cargo.filter(|&n| n >= 0 && n <= 20),
+        nombre_conyugue: dto.nombre_conyugue.and_then(sanitize_alpha),
+        apellido_conyugue: dto.apellido_conyugue.and_then(sanitize_alpha),
+        telefono_conyugue: dto.telefono_conyugue.and_then(with_max_len(15)).and_then(sanitize_numeric),
+        tiempo_conviviendo: dto.tiempo_conviviendo.filter(|&n| n >= 0 && n <= 80),
+        tiene_hijos: dto.tiene_hijos.and_then(sanitize_bool),
+        cuantos_hijos: dto.cuantos_hijos.filter(|&n| n >= 0 && n <= 20),
+        edad_hijos: dto.edad_hijos.map(|edades| edades.into_iter().filter(|&edad| edad >= 0 && edad <= 100).collect()),
+        camisa: dto.camisa.and_then(with_max_len(20)).and_then(sanitize_text),
+        pantalon: dto.pantalon.and_then(with_max_len(20)).and_then(sanitize_text),
+        calzado: dto.calzado.and_then(with_max_len(20)).and_then(sanitize_text),
     })
 }
