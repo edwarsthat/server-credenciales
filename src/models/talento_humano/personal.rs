@@ -97,6 +97,30 @@ pub struct Personal {
         serialize_with = "serialize_datetime"
     )]
     pub fecha_formulario_sociodemografico: Option<DateTime>,
+
+    // Informacion familiar
+    #[serde(rename = "nombre_conyugue", skip_serializing_if = "Option::is_none")]
+    pub nombre_conyugue: Option<String>,
+    #[serde(rename = "apellido_conyugue", skip_serializing_if = "Option::is_none")]
+    pub apellido_conyugue: Option<String>,
+    #[serde(rename = "telefono_conyugue", skip_serializing_if = "Option::is_none")]
+    pub telefono_conyugue: Option<String>,
+    #[serde(rename = "tiempo_conviviendo", skip_serializing_if = "Option::is_none")]
+    pub tiempo_conviviendo: Option<i32>,
+    #[serde(rename = "tiene_hijos", skip_serializing_if = "Option::is_none")]
+    pub tiene_hijos: Option<bool>,
+    #[serde(rename = "cuantos_hijos", skip_serializing_if = "Option::is_none")]
+    pub cuantos_hijos: Option<i32>,
+    #[serde(rename = "edad_hijos", skip_serializing_if = "Option::is_none")]
+    pub edad_hijos: Option<Vec<i32>>,
+
+    // Dotacion
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub camisa: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub pantalon: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub calzado: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -182,6 +206,30 @@ pub struct EncuestaSocioeconomicaDto {
         alias = "fecha_formulario_sociodemografico"
     )]
     pub fecha_formulario_sociodemografico: Option<DateTime>,
+
+    // Informacion familiar
+    #[serde(rename = "nombre_conyugue", skip_serializing_if = "Option::is_none")]
+    pub nombre_conyugue: Option<String>,
+    #[serde(rename = "apellido_conyugue", skip_serializing_if = "Option::is_none")]
+    pub apellido_conyugue: Option<String>,
+    #[serde(rename = "telefono_conyugue", skip_serializing_if = "Option::is_none")]
+    pub telefono_conyugue: Option<String>,
+    #[serde(rename = "tiempo_conviviendo", skip_serializing_if = "Option::is_none")]
+    pub tiempo_conviviendo: Option<i32>,
+    #[serde(rename = "tiene_hijos", skip_serializing_if = "Option::is_none")]
+    pub tiene_hijos: Option<bool>,
+    #[serde(rename = "cuantos_hijos", skip_serializing_if = "Option::is_none")]
+    pub cuantos_hijos: Option<i32>,
+    #[serde(rename = "edad_hijos", skip_serializing_if = "Option::is_none")]
+    pub edad_hijos: Option<Vec<i32>>,
+
+    // Dotacion
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub camisa: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub pantalon: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub calzado: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

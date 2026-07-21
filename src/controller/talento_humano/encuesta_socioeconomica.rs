@@ -51,7 +51,7 @@ pub async fn encuesta_socioeconomica_controller_without_token(
         .map_err(|e| ApiError::InternalError(format!("Error al serializar datos: {}", e)))?;
 
     let mut conn = redis_db.manager.clone();
-    conn.set_ex::<_, _, ()>(&key, json, 86400)
+    conn.set_ex::<_, _, ()>(&key, json, 604800)
         .await
         .map_err(|e| ApiError::InternalError(format!("Error al guardar en Redis: {}", e)))?;
 
